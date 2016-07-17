@@ -6,17 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Singleton
-public enum Dictionary {
-    INSRANCE;
+public class Dictionary {
 
     private Map<Short, String> dictionary;
     private Map<String, Short> reverseDictionary;
     private short index;
     //pomyslec nad usunieciem reversedictionary i zastapienie go para
 
-    Dictionary() {
-        init();
-    }
     @Inject
     public void init() {
         dictionary = new HashMap<>();
@@ -24,7 +20,7 @@ public enum Dictionary {
         index = 0;
     }
 
-    public short addWord(String word) {
+    private short addWord(String word) {
         String w = word.intern();
         dictionary.put(++index, w);
         reverseDictionary.put(w, index);

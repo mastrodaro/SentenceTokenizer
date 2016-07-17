@@ -1,6 +1,6 @@
 package com.mastrodaro.exporters;
 
-import com.mastrodaro.lang.Dictionary;
+import com.mastrodaro.parser.SentenceIterator;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -10,9 +10,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
-public class XMLExporter implements Exporter {
+class XMLExporter implements Exporter {
 
     private static final String NEW_LINE_SEPARATOR = "\n";
     private static final String TAG_TEXT = "text";
@@ -20,7 +19,7 @@ public class XMLExporter implements Exporter {
     private static final String TAG_WORD = "word";
 
     @Override
-    public void export(OutputStream out, List<short[]> sentences, int maxWordsInSentence) {
+    public void export(OutputStream out, SentenceIterator sentences, int maxWordsInSentence) {
         try( Writer writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
             factory.setProperty("escapeCharacters", false);
@@ -31,23 +30,18 @@ public class XMLExporter implements Exporter {
                     "<" + TAG_TEXT + ">" + NEW_LINE_SEPARATOR);
             //xmlWriter.writeStartElement(TAG_TEXT);
 
-            sentences.forEach(words -> {
-                uncheck(() -> xmlWriter.writeStartElement(TAG_SENTENCE));
-                for(int i = 0 ; i < words.length; i++) {
-                    final int ii = i;
+            while(sentences.hasNext()) {
+                xmlWriter.writeStartElement(TAG_SENTENCE);
+                sentences.next().forEach(word ->
                     uncheck(() -> {
                         xmlWriter.writeStartElement(TAG_WORD);
-                        xmlWriter.writeCharacters(Dictionary.INSRANCE.getWord(words[ii]));
+                        xmlWriter.writeCharacters(word);
                         xmlWriter.writeEndElement();
-                    });
-                }
-                uncheck(() -> xmlWriter.writeEndElement());
-                try {
-                    writer.write(NEW_LINE_SEPARATOR);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+                    })
+                );
+                xmlWriter.writeEndElement();
+                writer.write(NEW_LINE_SEPARATOR);
+            }
 
             writer.write("</text>");
             //xmlWriter.writeEndElement();

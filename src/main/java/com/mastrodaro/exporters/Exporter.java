@@ -1,9 +1,10 @@
 package com.mastrodaro.exporters;
 
+import com.mastrodaro.parser.SentenceIterator;
+
 import java.io.OutputStream;
-import java.util.List;
 
 public interface Exporter {
 
-    void export(OutputStream out, List<short[]> sentences, int maxWordsInSentence);
+    void export(OutputStream out, SentenceIterator sentences, int maxWordsInSentence);
 }

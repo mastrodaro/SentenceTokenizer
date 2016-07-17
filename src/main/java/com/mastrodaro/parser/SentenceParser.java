@@ -14,8 +14,8 @@ import java.util.List;
 
 public class SentenceParser {
 
-    /*@Inject
-    private Dictionary dictionary;*/
+    @Inject
+    private Dictionary dictionary;
 
     @Inject
     private ExporterProvider exporterProvider;
@@ -75,7 +75,7 @@ public class SentenceParser {
         Iterator<String> iterator = words.iterator();
         while(iterator.hasNext()) {
             String word = iterator.next();
-            wordsIndexed[i++] = Dictionary.INSRANCE.getWordIndex(word);
+            wordsIndexed[i++] = dictionary.getWordIndex(word);
         }
         return wordsIndexed;
     }
@@ -87,7 +87,7 @@ public class SentenceParser {
     }
 
     private void export(OutputStream out, OutputFormat format) {
-        exporterProvider.getExporter(format).export(out, sentences, maxWordsInSentence);
+        exporterProvider.getExporter(format).export(out, new SentenceIterator(sentences, dictionary), maxWordsInSentence);
     }
 
 }

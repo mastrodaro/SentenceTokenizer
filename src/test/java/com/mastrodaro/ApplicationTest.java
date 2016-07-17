@@ -10,11 +10,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertTrue;
 
 public class ApplicationTest {
-
 
     @Test
     public void splitSentences() throws IOException, XMLStreamException, SAXException, ParserConfigurationException {
