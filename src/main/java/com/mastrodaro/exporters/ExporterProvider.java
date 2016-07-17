@@ -1,6 +1,6 @@
 package com.mastrodaro.exporters;
 
-import com.mastrodaro.OutputFormat;
+import com.mastrodaro.parser.OutputFormat;
 
 import javax.inject.Singleton;
 import java.util.HashMap;

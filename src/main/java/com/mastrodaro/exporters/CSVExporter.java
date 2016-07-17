@@ -1,6 +1,6 @@
 package com.mastrodaro.exporters;
 
-import com.mastrodaro.Dictionary;
+import com.mastrodaro.lang.Dictionary;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 

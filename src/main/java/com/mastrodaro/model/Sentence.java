@@ -1,6 +1,6 @@
-package com.mastrodaro;
+package com.mastrodaro.model;
 
-import java.util.Objects;
+import java.util.Arrays;
 
 public class Sentence {
 
@@ -19,11 +19,11 @@ public class Sentence {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sentence sentence = (Sentence) o;
-        return Objects.equals(words, sentence.words);
+        return Arrays.equals(words, sentence.words);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(words);
+        return Arrays.hashCode(words);
     }
 }

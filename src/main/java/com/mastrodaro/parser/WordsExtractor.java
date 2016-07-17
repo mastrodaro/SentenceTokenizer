@@ -1,11 +1,9 @@
 package com.mastrodaro.parser;
 
-import com.mastrodaro.OutputFormat;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mastrodaro.OutputFormat.*;
+import static com.mastrodaro.parser.OutputFormat.*;
 
 public class WordsExtractor {
 

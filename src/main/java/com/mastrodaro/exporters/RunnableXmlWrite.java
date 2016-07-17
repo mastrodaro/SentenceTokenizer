@@ -1,4 +1,4 @@
-package com.mastrodaro;
+package com.mastrodaro.exporters;
 
 import javax.xml.stream.XMLStreamException;
 

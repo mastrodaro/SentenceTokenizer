@@ -1,7 +1,6 @@
 package com.mastrodaro.parser;
 
-import com.mastrodaro.Dictionary;
-import com.mastrodaro.OutputFormat;
+import com.mastrodaro.lang.Dictionary;
 import com.mastrodaro.exporters.ExporterProvider;
 import com.mastrodaro.lang.SentenceRecognizer;
 import com.mastrodaro.lang.WordSorter;

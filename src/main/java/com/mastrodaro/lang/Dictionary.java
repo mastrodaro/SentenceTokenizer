@@ -1,4 +1,4 @@
-package com.mastrodaro;
+package com.mastrodaro.lang;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

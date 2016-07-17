@@ -1,4 +1,4 @@
-package com.mastrodaro;
+package com.mastrodaro.parser;
 
 public enum OutputFormat {
     XML("xml"), CSV("csv");

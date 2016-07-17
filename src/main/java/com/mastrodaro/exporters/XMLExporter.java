@@ -1,7 +1,6 @@
 package com.mastrodaro.exporters;
 
-import com.mastrodaro.Dictionary;
-import com.mastrodaro.RunnableXmlWrite;
+import com.mastrodaro.lang.Dictionary;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;

@@ -3,15 +3,13 @@ package com.mastrodaro;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.mastrodaro.exporters.ExporterProvider;
+import com.mastrodaro.parser.OutputFormat;
 import com.mastrodaro.parser.SentenceParser;
 
 import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Application {
 
