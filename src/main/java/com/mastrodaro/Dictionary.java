@@ -1,25 +1,30 @@
 package com.mastrodaro;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dictionary {
+@Singleton
+public enum Dictionary {
+    INSRANCE;
 
     private Map<Short, String> dictionary;
     private Map<String, Short> reverseDictionary;
-    private Short index;
+    private short index;
+    //pomyslec nad usunieciem reversedictionary i zastapienie go para
 
-    public Dictionary() {
+    Dictionary() {
+        init();
+    }
+    @Inject
+    public void init() {
         dictionary = new HashMap<>();
         reverseDictionary = new HashMap<>();
         index = 0;
     }
 
-    public boolean containWord(String word) {
-        return dictionary.containsValue(word);
-    }
-
-    public Short addWord(String word) {
+    public short addWord(String word) {
         String w = word.intern();
         dictionary.put(++index, w);
         reverseDictionary.put(w, index);
@@ -30,8 +35,13 @@ public class Dictionary {
         return dictionary.get(index);
     }
 
-    public int getWordIndex(String word) {
-        //return dictionary.entrySet().stream().filter(e -> e.getValue().equals(word)).map(e -> e.getKey()).findFirst().orElse((short)0);
-        return reverseDictionary.get(word);
+    public short getWordIndex(String word) {
+        short wordIndex;
+        if(!dictionary.containsValue(word)) {
+            wordIndex = addWord(word);
+        } else {
+            wordIndex = reverseDictionary.get(word);
+        }
+        return wordIndex;
     }
 }

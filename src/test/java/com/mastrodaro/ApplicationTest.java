@@ -1,5 +1,7 @@
 package com.mastrodaro;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -16,7 +18,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class AppTest {
+public class ApplicationTest {
 
     //http://nlp.stanford.edu/software/lex-parser.shtml
 
@@ -44,15 +46,25 @@ public class AppTest {
 
     @Test
     public void splitSentences() throws IOException, XMLStreamException, SAXException, ParserConfigurationException {
-        SentenceReader.readSentences(new FileInputStream(Paths.get("src/test/resources/small.in").toFile()),
-                new FileOutputStream(Paths.get("src/test/resources/czy64.txt").toFile()));
+        OutputFormat xml = OutputFormat.valueOf("XML");
+        int a = 1;
+        /*SentenceReader.readSentences(new FileInputStream(Paths.get("src/test/resources/small.in").toFile()),
+                new FileOutputStream(Paths.get("src/test/resources/czy64.txt").toFile()));*/
         //assertThat(Input.fromString(xml), isIdenticalTo(Input.fromFile("src/test/resources/small.xml")));
     }
 
     @Test
     public void splitSentencesWithMem() throws IOException, XMLStreamException {
-        SentenceReader.readSentencesWithMem(new FileInputStream(Paths.get("src/test/resources/large.in").toFile()),
-                new FileOutputStream(Paths.get("src/test/resources/czy64.txt").toFile()));
+        SentenceReader.readSentencesWithMem(new FileInputStream(Paths.get("src/test/resources/small.in").toFile()),
+                new FileOutputStream(Paths.get("src/test/resources/czy64.csv").toFile()));
+    }
+
+    @Test
+    @Ignore
+    public void weldTest() throws IOException, XMLStreamException {
+        Injector injector = Guice.createInjector(new MyModule());
+        Application main = injector.getInstance(Application.class);
+        main.run(OutputFormat.XML);
     }
 
     @Test
