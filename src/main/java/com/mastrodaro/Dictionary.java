@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class Dictionary {
 
-    private Map<Integer, String> dictionary;
-    private Map<String, Integer> reverseDictionary;
-    private Integer index;
+    private Map<Short, String> dictionary;
+    private Map<String, Short> reverseDictionary;
+    private Short index;
 
     public Dictionary() {
         dictionary = new HashMap<>();
@@ -19,17 +19,19 @@ public class Dictionary {
         return dictionary.containsValue(word);
     }
 
-    public Integer addWord(String word) {
-        dictionary.put(++index, word);
-        reverseDictionary.put(word, index);
+    public Short addWord(String word) {
+        String w = word.intern();
+        dictionary.put(++index, w);
+        reverseDictionary.put(w, index);
         return index;
     }
 
-    public String getWord(Integer index) {
+    public String getWord(short index) {
         return dictionary.get(index);
     }
 
-    public Integer getWordIndex(String word) {
+    public int getWordIndex(String word) {
+        //return dictionary.entrySet().stream().filter(e -> e.getValue().equals(word)).map(e -> e.getKey()).findFirst().orElse((short)0);
         return reverseDictionary.get(word);
     }
 }

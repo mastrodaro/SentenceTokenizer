@@ -1,16 +1,19 @@
 package com.mastrodaro;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
-public class Sentence {
+public class SentenceWithWords {
 
-    private byte[] words;
+    private String[] words;
 
-    public Sentence(byte[] words) {
+    public SentenceWithWords(String[] words) {
         this.words = words;
     }
 
-    public byte[] getWords() {
+    public String[] getWords() {
         return words;
     }
 
@@ -18,7 +21,7 @@ public class Sentence {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Sentence sentence = (Sentence) o;
+        SentenceWithWords sentence = (SentenceWithWords) o;
         return Objects.equals(words, sentence.words);
     }
 

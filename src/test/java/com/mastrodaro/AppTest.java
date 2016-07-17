@@ -1,31 +1,20 @@
 package com.mastrodaro;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.xmlunit.builder.Input;
-import org.xmlunit.diff.Diff;
-import org.xmlunit.diff.Difference;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.xmlunit.matchers.CompareMatcher.isIdenticalTo;
 
 public class AppTest {
 
@@ -64,5 +53,57 @@ public class AppTest {
     public void splitSentencesWithMem() throws IOException, XMLStreamException {
         SentenceReader.readSentencesWithMem(new FileInputStream(Paths.get("src/test/resources/large.in").toFile()),
                 new FileOutputStream(Paths.get("src/test/resources/czy64.txt").toFile()));
+    }
+
+    @Test
+    @Ignore
+    public void testShorts() {
+        byte b = (byte)255;
+        int i = b & 0xff;
+        System.out.println(i);
+    }
+
+    @Test
+    @Ignore
+    public void testOverheat() {
+
+       /* Sentence[] ss = new Sentence[550_000];
+        Sentence[] ss2 = new Sentence[550_000];
+        Sentence[] ss3 = new Sentence[450_000];
+        int iGc = 0;
+        int a = 0;
+        for(int i = 0; i < 550_000; i++) {
+            byte[] b = {1, 5, 65, -50, 120, 127};
+
+            ss[a++] = new Sentence(b);
+            if(++iGc % 50_000 == 0 || (iGc > 400_000 && iGc % 10_000 == 0) ||
+                    (iGc > 500_000 && iGc % 1_000 == 0)) {
+                System.err.println(iGc);
+            }
+        }
+
+        a = 0;
+        for(int i = 0; i < 550_000; i++) {
+            byte[] b = {1, 5, 65, -50, 120, 117};
+
+            ss2[a++] = new Sentence(b);
+            ++iGc;
+            if(iGc % 50_000 == 0 || (iGc > 400_000 && iGc % 10_000 == 0) ||
+                    (iGc > 500_000 && iGc % 1_000 == 0)) {
+                System.err.println(iGc);
+            }
+        }
+
+        a = 0;
+        for(int i = 0; i < 450_000; i++) {
+            byte[] b = {1, 5, 65, -50, 120, 126};
+
+            ss3[a++] = new Sentence(b);
+            ++iGc;
+            if(iGc % 50_000 == 0 || (iGc > 400_000 && iGc % 10_000 == 0) ||
+                    (iGc > 500_000 && iGc % 1_000 == 0)) {
+                System.err.println(iGc);
+            }
+        }*/
     }
 }

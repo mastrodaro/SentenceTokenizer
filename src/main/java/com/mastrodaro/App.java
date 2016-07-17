@@ -10,6 +10,6 @@ public class App {
 
     public static void main(String[] args) throws IOException, XMLStreamException {
 
-        SentenceReader.readSentences(System.in, System.out);
+        SentenceReader.readSentencesWithMem(System.in, System.out);
     }
 }
