@@ -58,7 +58,7 @@ class XMLExporter implements Exporter {
             xmlWriter.flush();
             xmlWriter.close();
         } catch (IOException | XMLStreamException e) {
-            logger.error("Error during CSV export: {}", e);
+            logger.error("Error during XML export: {}", e);
             System.exit(-1);
         }
     }
@@ -67,7 +67,7 @@ class XMLExporter implements Exporter {
         try {
             runner.run();
         } catch(XMLStreamException e) {
-            logger.error("Error during CSV export: {}", e);
+            logger.error("Error during XML export: {}", e);
             System.exit(-1);
         }
     }
