@@ -1,11 +1,16 @@
 package com.mastrodaro.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.mastrodaro.parser.OutputFormat.*;
 
 public class WordsExtractor {
+
+    private static final Logger logger = LoggerFactory.getLogger(WordsExtractor.class);
 
     private OutputFormat mode;
 
@@ -14,6 +19,11 @@ public class WordsExtractor {
         return this;
     }
 
+    /**
+     * Extracs given sentence to words.
+     * @param sentence
+     * @return
+     */
     public List<String> extract(String sentence) {
         List<String> words = new ArrayList<>();
         if(mode == XML) {
@@ -28,31 +38,47 @@ public class WordsExtractor {
         return sentence.replaceAll(",([^ ])", ", $1").split("\\s+");
     }
 
+    /**
+     * Sentence extraction for XML purposes.
+     * Removes : ! , ? ( ) from word and changes ' ` ’ to encoded entity &amp;apos;
+     * Removes single characters like -
+     * @param sentence
+     * @return
+     */
     private List<String> extractForXML(String sentence) {
         List<String> words = new ArrayList<>();
         String[] wordsArr = split(sentence);
 
-        for(int i = 0 ; i < wordsArr.length; i++) {
-            if(!wordsArr[i].trim().isEmpty()) {
-                String word = wordsArr[i].trim().replaceAll("[:!,\\?\\(\\)]", "").replaceAll("['`’]", "&apos;");
+        for(String w : wordsArr) {
+            if(!w.trim().isEmpty()) {
+                String word = w.trim().replaceAll("[:!,\\?\\(\\)]", "").replaceAll("['`’]", "&apos;");
                 if(word.length() > 1 || word.matches("[a-zA-Z]"))
                     words.add(word);
             }
         }
+        logger.trace("Extracted words: {}. From sentence: {}", words, sentence);
         return words;
     }
 
+    /**
+     * Sentence extraction for CSV purposes.
+     * Removes : ! , ? ( ) from word and normalizes ' ` ’ to '
+     * Removes single characters like -
+     * @param sentence
+     * @return
+     */
     private List<String> extractForCSV(String sentence) {
         List<String> words = new ArrayList<>();
         String[] wordsArr = split(sentence);
 
-        for(int i = 0 ; i < wordsArr.length; i++) {
-            if(!wordsArr[i].trim().isEmpty()) {
-                String word = wordsArr[i].trim().replaceAll("[:!,\\?\\(\\)]", "").replaceAll("['`’]", "'");
+        for(String w : wordsArr) {
+            if(!w.trim().isEmpty()) {
+                String word = w.trim().replaceAll("[:!,\\?\\(\\)]", "").replaceAll("['`’]", "'");
                 if(word.length() > 1 || word.matches("[a-zA-Z]"))
                     words.add(word);
             }
         }
+        logger.trace("Extracted words: {}. From sentence: {}", words, sentence);
         return words;
     }
 }

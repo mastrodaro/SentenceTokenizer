@@ -2,15 +2,19 @@ package com.mastrodaro.model;
 
 import java.util.Arrays;
 
+/**
+ * Sentence representation. Contains an array of word indexes to be stored somewhere else.
+ * Not used because of memory limits.
+ */
 public class Sentence {
 
-    private byte[] words;
+    private short[] words;
 
-    public Sentence(byte[] words) {
+    public Sentence(short[] words) {
         this.words = words;
     }
 
-    public byte[] getWords() {
+    public short[] getWords() {
         return words;
     }
 

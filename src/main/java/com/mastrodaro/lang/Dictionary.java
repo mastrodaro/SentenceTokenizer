@@ -1,12 +1,20 @@
 package com.mastrodaro.lang;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Container for words in structure ID < - > String for memory opitimzation to just store one instance of each word
+ */
 @Singleton
 public class Dictionary {
+
+    private static final Logger logger = LoggerFactory.getLogger(Dictionary.class);
 
     private Map<Short, String> dictionary;
     private Map<String, Short> reverseDictionary;
@@ -18,19 +26,30 @@ public class Dictionary {
         dictionary = new HashMap<>();
         reverseDictionary = new HashMap<>();
         index = 0;
+        logger.debug("Dictionary initialized.");
     }
 
     private short addWord(String word) {
-        String w = word.intern();
-        dictionary.put(++index, w);
-        reverseDictionary.put(w, index);
+        dictionary.put(++index, word);
+        reverseDictionary.put(word, index);
+        logger.trace("Added word \"{}\" with index: {}", word, index);
         return index;
     }
 
+    /**
+     * Gets word
+     * @param index index of word
+     * @return word
+     */
     public String getWord(short index) {
         return dictionary.get(index);
     }
 
+    /**
+     * Gives id of given word. If dictionary does not contain the word it it will be stored.
+     * @param word word to get id of
+     * @return id of given word
+     */
     public short getWordIndex(String word) {
         short wordIndex;
         if(!dictionary.containsValue(word)) {
@@ -38,6 +57,7 @@ public class Dictionary {
         } else {
             wordIndex = reverseDictionary.get(word);
         }
+        logger.trace("Word \"{}\" index = {}", word, wordIndex);
         return wordIndex;
     }
 }

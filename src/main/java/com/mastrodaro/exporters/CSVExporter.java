@@ -3,6 +3,8 @@ package com.mastrodaro.exporters;
 import com.mastrodaro.parser.SentenceIterator;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -16,8 +18,16 @@ import java.util.stream.IntStream;
 
 class CSVExporter implements Exporter {
 
-    private static final String NEW_LINE_SEPARATOR = "\n";
+    private static final Logger logger = LoggerFactory.getLogger(CSVExporter.class);
 
+    private static final String NEW_LINE_SEPARATOR = "\n";
+    private static final String ELEMENT_SENTENCE = "Sentence";
+    private static final String ELEMENT_WORD = "Word";
+
+    /**
+     * Exports given SentenceIterator to OutputStream using CSVPrinter from Apache Commons CSV
+     * See https://commons.apache.org/proper/commons-csv/
+     */
     @Override
     public void export(OutputStream out, SentenceIterator sentences, int maxWordsInSentence) {
         try( Writer writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
@@ -26,19 +36,20 @@ class CSVExporter implements Exporter {
 
             List<String> header = new ArrayList<>();
             header.add(null);
-            IntStream.range(1, maxWordsInSentence + 1).forEach(value -> header.add("Word " + value));
+            IntStream.range(1, maxWordsInSentence + 1).forEach(value -> header.add(ELEMENT_WORD + " " + value));
             csvFilePrinter.printRecord(header);
 
             int i = 0;
             while(sentences.hasNext()) {
                 List<String> words = new ArrayList<>();
-                words.add("Sentence " + (++i));
+                words.add(ELEMENT_SENTENCE + " " + (++i));
                 words.addAll(sentences.next().collect(Collectors.toList()));
                 csvFilePrinter.printRecord(words);
             }
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error during CSV export: {}", e);
+            System.exit(-1);
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.mastrodaro.exporters;
 
 import com.mastrodaro.parser.SentenceIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -13,16 +15,23 @@ import java.nio.charset.StandardCharsets;
 
 class XMLExporter implements Exporter {
 
+    private static final Logger logger = LoggerFactory.getLogger(XMLExporter.class);
+
     private static final String NEW_LINE_SEPARATOR = "\n";
     private static final String TAG_TEXT = "text";
     private static final String TAG_SENTENCE = "sentence";
     private static final String TAG_WORD = "word";
 
+    /**
+     * Exports given SentenceIterator to OutputStream using XMLStreamWriter
+     */
     @Override
     public void export(OutputStream out, SentenceIterator sentences, int maxWordsInSentence) {
         try( Writer writer = new OutputStreamWriter(out, StandardCharsets.UTF_8)) {
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
             factory.setProperty("escapeCharacters", false);
+
+            //to keep original formating from example some parts are printed directly to the OutputStream
 
             XMLStreamWriter xmlWriter = factory.createXMLStreamWriter(writer);
             //xmlWriter.writeStartDocument(StandardCharsets.UTF_8.name(), "1.0");
@@ -43,21 +52,23 @@ class XMLExporter implements Exporter {
                 writer.write(NEW_LINE_SEPARATOR);
             }
 
-            writer.write("</text>");
+            writer.write("</" + TAG_TEXT + ">");
             //xmlWriter.writeEndElement();
             //xmlWriter.writeEndDocument();
             xmlWriter.flush();
             xmlWriter.close();
         } catch (IOException | XMLStreamException e) {
-            e.printStackTrace();
+            logger.error("Error during CSV export: {}", e);
+            System.exit(-1);
         }
     }
 
     private static void uncheck(RunnableXmlWrite runner) {
         try {
             runner.run();
-        } catch(XMLStreamException ex) {
-            throw new RuntimeException(ex);
+        } catch(XMLStreamException e) {
+            logger.error("Error during CSV export: {}", e);
+            System.exit(-1);
         }
     }
 }

@@ -8,11 +8,7 @@ import com.mastrodaro.parser.SentenceParser;
 
 import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Application {
 
@@ -42,12 +38,8 @@ public class Application {
         main.run(format);
     }
 
-    void run(OutputFormat format) throws FileNotFoundException {
+    void run(OutputFormat format) {
         provider.bootstrap();
         parser.parse(System.in, System.out, format);
-
-//        parser.parse( new FileInputStream(Paths.get("src/test/resources/large.in").toFile()),
-//                new FileOutputStream(Paths.get("src/test/resources/czy64.csv").toFile()), format);
-
     }
 }

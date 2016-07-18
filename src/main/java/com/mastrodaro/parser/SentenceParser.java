@@ -4,6 +4,8 @@ import com.mastrodaro.lang.Dictionary;
 import com.mastrodaro.exporters.ExporterProvider;
 import com.mastrodaro.lang.SentenceRecognizer;
 import com.mastrodaro.lang.WordSorter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.*;
@@ -14,28 +16,44 @@ import java.util.List;
 
 public class SentenceParser {
 
-    @Inject
+    private static final Logger logger = LoggerFactory.getLogger(SentenceParser.class);
+
     private Dictionary dictionary;
-
-    @Inject
     private ExporterProvider exporterProvider;
-
-    @Inject
     private SentenceRecognizer sentenceRecognizer;
-
-    @Inject
     private WordsExtractor wordsExtractor;
 
     private List<short[]> sentences = new ArrayList<>(25);
     private int maxWordsInSentence = 0;
-    private int parsedSentences = 0;    //to mozna potem wywalic
 
-
-    public void parse(InputStream in, OutputStream out, OutputFormat format) {
-        read(in, format);
-        export(out, format);
+    @Inject
+    public SentenceParser(Dictionary dictionary, ExporterProvider exporterProvider,
+                          SentenceRecognizer sentenceRecognizer, WordsExtractor wordsExtractor) {
+        this.dictionary = dictionary;
+        this.exporterProvider = exporterProvider;
+        this.sentenceRecognizer = sentenceRecognizer;
+        this.wordsExtractor = wordsExtractor;
     }
 
+    /**
+     * Processing the input to given format output.
+     * @param in input stream
+     * @param out output stream
+     * @param format format option
+     */
+    public void parse(InputStream in, OutputStream out, OutputFormat format) {
+        logger.debug("Parsing - start");
+        read(in, format);
+        logger.debug("Parsing - input read successful, starting export: {}", format);
+        export(out, format);
+        logger.debug("Parsing - done");
+    }
+
+    /**
+     * Read input in stream fashion way.
+     * @param in
+     * @param format
+     */
     private void read(InputStream in, OutputFormat format) {
         try(Reader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
             int c;
@@ -52,23 +70,30 @@ public class SentenceParser {
                 sb.append(letter);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error during reading input: {}", e);
+            System.exit(-1);
         }
     }
 
+    /**
+     * Processes a single sentence.
+     * @param sentence
+     * @param format
+     */
     private void processSentence(String sentence, OutputFormat format) {
         List<String> words = wordsExtractor.setMode(format).extract(sentence);
         saveLongestWordsCount(words);
         words.sort(WordSorter.alphabeticalCapitalLsst);
-        sentences.add(toIndexes(words));
-        parsedSentences++;
-
-        if(parsedSentences % 50_000 == 0 || (parsedSentences > 400_000 && parsedSentences % 10_000 == 0) ||
-                (parsedSentences > 500_000 && parsedSentences % 1_000 == 0)) {
-            System.err.println(parsedSentences);
-        }
+        short[] indexes = toIndexes(words);
+        sentences.add(indexes);
+        logger.trace("Processed sentence: {}, word: {}, indexes: {}", sentence, words, indexes);
     }
 
+    /**
+     * Transforms words to their indexes.
+     * @param words
+     * @return
+     */
     private short[] toIndexes(List<String> words) {
         short[] wordsIndexed = new short[words.size()];
         int i = 0;
@@ -80,12 +105,21 @@ public class SentenceParser {
         return wordsIndexed;
     }
 
+    /**
+     * Saves the longest word count in sentences.
+     * @param words
+     */
     private void saveLongestWordsCount(List<String> words) {
         if(words.size() > maxWordsInSentence) {
             maxWordsInSentence = words.size();
         }
     }
 
+    /**
+     * Exports parsed data for given format output.
+     * @param out
+     * @param format
+     */
     private void export(OutputStream out, OutputFormat format) {
         exporterProvider.getExporter(format).export(out, new SentenceIterator(sentences, dictionary), maxWordsInSentence);
     }
