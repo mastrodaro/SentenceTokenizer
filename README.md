@@ -1,9 +1,13 @@
 # StringTokenizer
-Set up<br />
+
+Set up
+
     Your solution must be written in Java version at least 1.7. Your application must be able to read from
     standard input and write onto standard output. Feel free to present your ability to use common tools,
-    libs or frameworks (wiring, testing, logging, and building).<br />
-Functionality<br />
+    libs or frameworks (wiring, testing, logging, and building).
+
+Functionality
+
     The basic requirement is to provide a program that can convert text into either XML formatted data or
     comma separated (CSV) data. The text is to be parsed, broken into sentences and words and the words
     have to be sorted.
@@ -25,9 +29,8 @@ Functionality<br />
     Cinderella likes shoes..”
     In both cases the XML result should be like:
 
-    <code>
     <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?>
-    &lt;text&gt;
+    <text>
     	&lt;sentence&gt;
     		&lt;word&gt;a&lt;/word&gt;
     		&lt;word&gt;had&lt;/word&gt;
