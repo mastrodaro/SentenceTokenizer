@@ -1,7 +1,8 @@
+# StringTokenizer
 Set up<br />
     Your solution must be written in Java version at least 1.7. Your application must be able to read from
     standard input and write onto standard output. Feel free to present your ability to use common tools,
-    libs or frameworks (wiring, testing, logging, and building).
+    libs or frameworks (wiring, testing, logging, and building).<br />
 Functionality<br />
     The basic requirement is to provide a program that can convert text into either XML formatted data or
     comma separated (CSV) data. The text is to be parsed, broken into sentences and words and the words
@@ -23,33 +24,38 @@ Functionality<br />
     Peter called for the wolf , and Aesop came .
     Cinderella likes shoes..”
     In both cases the XML result should be like:
+
+    <code>
     <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?>
-    <text>
-        <sentence>
-            <word>a</word>
-            <word>had</word>
-            <word>lamb</word>
-            <word>little</word>
-            <word>Mary</word>
-        </sentence>
-        <sentence>
-            <word>Aesop</word>
-            <word>and</word>
-            <word>called</word>
-            <word>came</word>
-            <word>for</word>
-            <word>Peter</word>
-            <word>the</word>
-            <word>wolf</word>
-        </sentence>
-        <sentence>
-            <word>Cinderella</word>
-            <word>likes</word>
-            <word>shoes</word>
-        </sentence>
-    </text>
+    &lt;text&gt;
+    	&lt;sentence&gt;
+    		&lt;word&gt;a&lt;/word&gt;
+    		&lt;word&gt;had&lt;/word&gt;
+    		&lt;word&gt;lamb&lt;/word&gt;
+    		&lt;word&gt;little&lt;/word&gt;
+    		&lt;word&gt;Mary&lt;/word&gt;
+    	&lt;/sentence&gt;
+    	&lt;sentence&gt;
+    		&lt;word&gt;Aesop&lt;/word&gt;
+    		&lt;word&gt;and&lt;/word&gt;
+    		&lt;word&gt;called&lt;/word&gt;
+    		&lt;word&gt;came&lt;/word&gt;
+    		&lt;word&gt;for&lt;/word&gt;
+    		&lt;word&gt;Peter&lt;/word&gt;
+    		&lt;word&gt;the&lt;/word&gt;
+    		&lt;word&gt;wolf&lt;/word&gt;
+    	&lt;/sentence&gt;
+    	&lt;sentence&gt;
+    		&lt;word&gt;Cinderella&lt;/word&gt;
+    		&lt;word&gt;likes&lt;/word&gt;
+    		&lt;word&gt;shoes&lt;/word&gt;
+    	&lt;/sentence&gt;
+    &lt;/text&gt;
+    </code>
     And the CSV result should likewise be:
+    <code>
     , Word 1, Word 2, Word 3, Word 4, Word 5, Word 6, Word 7, Word 8
     Sentence 1, a, had, lamb, little, Mary
     Sentence 2, Aesop, and, called, came, for, Peter, the, wolf
     Sentence 3, Cinderella, likes, shoes
+    </code>
